@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Request Details</title>
+</head>
+<body>
+<div th:if="${request}">
+    <h2>Request Details</h2>
+    <p><strong>Department:</strong> <span th:text="${request.department}"></span></p>
+    <p><strong>Description:</strong> <span th:text="${request.description}"></span></p>
+    <p><strong>Status:</strong> <span th:text="${request.status}"></span></p>
+    <p><strong>Comment:</strong> <span th:text="${request.comment}"></span></p>
+    <p><strong>Approved Date:</strong> <span th:text="${request.approvedDate}"></span></p>
+
+    <div th:if="${#authorization.expression('hasRole(''SUPER_USER'') or hasRole(''HOD'')')}">
+        <form th:action="@{'/requests/' + ${request.id} + '/approve'}" method="post">
+            <button type="submit">Approve</button>
+        </form>
+        <form th:action="@{'/requests/' + ${request.id} + '/pending'}" method="post">
+            <button type="submit">Set Pending</button>
+        </form>
+    </div>
+
+    <div th:if="${#authorization.expression('hasRole(''ASSIGNED_USER'')')}">
+        <form th:action="@{'/requests/' + ${request.id} + '/comment'}" method="post">
+            <textarea name="comment"></textarea>
+            <button type="submit">Add Comment</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
