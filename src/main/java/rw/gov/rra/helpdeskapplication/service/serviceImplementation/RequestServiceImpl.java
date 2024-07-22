@@ -1,6 +1,7 @@
 package rw.gov.rra.helpdeskapplication.service.serviceImplementation;
 
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rw.gov.rra.helpdeskapplication.model.Department;
@@ -11,9 +12,14 @@ import rw.gov.rra.helpdeskapplication.service.RequestService;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
+@Transactional
 public class RequestServiceImpl implements RequestService {
+    private static final Logger logger = LoggerFactory.getLogger(RequestService.class);
+
 
     @Autowired
     private RequestRepository repo;
@@ -54,21 +60,24 @@ public class RequestServiceImpl implements RequestService {
         throw new RuntimeException("Request not found");
     }
 
-    @Autowired
-    private RequestRepository requestRepository;
-
+//    @Autowired
+//    private RequestRepository requestRepository;
+//
     public Request findById(Long id) {
-        return requestRepository.findById(id).orElse(null);
+        return repo.findById(id).orElse(null);
     }
 
     public Request save(Request request) {
         return repo.save(request);
     }
     public void deleteRequestById(Long id) {
-        if (!requestRepository.existsById(id)) {
+        logger.info("Deleting request with ID: " + id);
+        if (!repo.existsById(id)) {
             throw new NoSuchElementException("Request not found");
+        } else {
+            repo.deleteById(id);
+
         }
-        requestRepository.deleteById(id);
     }
 
     //change until here

@@ -2,6 +2,7 @@ package rw.gov.rra.helpdeskapplication.service;
 
 
 
+import rw.gov.rra.helpdeskapplication.model.Request;
 import rw.gov.rra.helpdeskapplication.model.User;
 
 import java.util.List;
@@ -14,5 +15,6 @@ public interface UserService {
 
 
     User findByUsername(String assignedTo);
+    User findById(Long id);
 }
 

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import rw.gov.rra.helpdeskapplication.model.Request;
 import rw.gov.rra.helpdeskapplication.model.User;
 import rw.gov.rra.helpdeskapplication.repository.UserRepository;
 import rw.gov.rra.helpdeskapplication.service.UserService;
@@ -46,6 +47,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String assignedTo) {
         return null;
+    }
+    public User findById(Long id) {
+        return repo.findById(id).orElse(null);
     }
 
 }

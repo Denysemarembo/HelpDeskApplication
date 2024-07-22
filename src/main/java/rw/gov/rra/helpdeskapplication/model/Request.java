@@ -10,26 +10,26 @@ import java.util.Date;
 @Table(name = "request")
 public class Request {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-   // private String department;
-    private String description;
-    private Date requestDate;
-    private String status;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	// private String department;
+	private String description;
+	private Date requestDate;
+	private String status;
 	private String comment;
 	private LocalDateTime approvedDate;
-    
-    @ManyToOne
-    @JoinColumn(name = "requestor_id")
-    private User requestor;
 
-    @ManyToOne
-    @JoinColumn(name = "assigned_to_id")
-    private User assignedTo;
-    
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department depart;
+	@ManyToOne
+	@JoinColumn(name = "requestor_id")
+	private User requestor;
+
+	@ManyToOne
+	@JoinColumn(name = "assigned_to_id")
+	private User assignedTo;
+
+	@ManyToOne
+	@JoinColumn(name = "department_id")
+	private Department depart;
 
 	public Long getId() {
 		return id;
@@ -78,6 +78,10 @@ public class Request {
 		this.requestor = requestor;
 	}
 
+//	public void setRequestor(int requestor) {
+//		this.requestor = requestor;
+//	}
+
 	public User getAssignedTo() {
 		return assignedTo;
 	}
@@ -121,10 +125,10 @@ public class Request {
 	public void addComment(String comment) {
 		this.comment = comment;
 	}
-//until here
+	//until here
 //String department,
 	public Request( String description, Date requestDate, String status, User requestor,
-				   User assignedTo, Department depart, String comment, LocalDateTime approvedDate) {
+					User assignedTo, Department depart, String comment, LocalDateTime approvedDate) {
 		super();
 		//this.department = department;
 		this.description = description;

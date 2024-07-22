@@ -1,17 +1,15 @@
 package rw.gov.rra.helpdeskapplication.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-
 
 @Entity
 @Table(name = "user")
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -22,12 +20,26 @@ public class User {
 	private Role role;
 
 	@OneToMany(mappedBy = "requestor")
-    private List<Request> requests = new ArrayList<>();
-	
-	@ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+	@JsonManagedReference
+	private List<Request> requests = new ArrayList<>();
 
+	@ManyToOne
+	@JoinColumn(name = "department_id")
+	private Department department;
+
+	// Constructors
+	public User() {
+		super();
+	}
+
+	public User(String username, String password, Role role, List<Request> requests) {
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.requests = requests;
+	}
+
+	// Getters and Setters
 	public Long getId() {
 		return id;
 	}
@@ -52,7 +64,9 @@ public class User {
 		this.password = password;
 	}
 
-	public Role getRole(){return role;}
+	public Role getRole() {
+		return role;
+	}
 
 	public void setRole(Role role) {
 		this.role = role;
@@ -73,19 +87,4 @@ public class User {
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
-
-	public User(String username, String password, Role role, List<Request> requests) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.role = role;
-		this.requests = requests;
-		this.department = department;
-	}
-
-	public User() {
-		super();
-	}
-
-
 }

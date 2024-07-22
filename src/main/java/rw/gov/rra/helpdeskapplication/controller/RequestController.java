@@ -2,6 +2,7 @@ package rw.gov.rra.helpdeskapplication.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,15 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import rw.gov.rra.helpdeskapplication.model.*;
 import rw.gov.rra.helpdeskapplication.service.*;
 import org.springframework.ui.Model;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Controller
 public class RequestController {
+    private static final Logger logger = LoggerFactory.getLogger(RequestController.class);
+
 
     @Autowired
     private UserService userService;
@@ -42,10 +45,10 @@ public class RequestController {
     public String submitRequest(@ModelAttribute Request request) {
         System.out.println("Trace request: "+request);
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //User assigned = userService.getUserById(Long.parseLong(request.getAssignedTo().toString()));
-        //request.setDepart(assigned.getDepartment());
         request.setStatus("I");
         request.setRequestDate(new Date());
+        User requestor = userService.findById(3L);
+        request.setRequestor(requestor);
         requestService.createRequest(request);
         return "redirect:/success";
 
@@ -108,7 +111,7 @@ public class RequestController {
     }
     @GetMapping("/success")
     public String showSuccessPage() {
-        return "success"; // returns success.html
+        return "success";
     }
     @GetMapping("/getDepartment")
     @ResponseBody
@@ -118,13 +121,12 @@ public class RequestController {
     }
     @DeleteMapping("/requests/{id}")
     public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
-        try {
-            requestService.deleteRequestById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        logger.info("Received request to delete request with ID: " + id);
+        requestService.deleteRequestById(id);
+        return ResponseEntity.ok().build();
     }
 
-    //change until here
+
+
+
 }

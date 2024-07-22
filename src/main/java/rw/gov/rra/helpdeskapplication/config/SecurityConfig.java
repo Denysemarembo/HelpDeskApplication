@@ -18,7 +18,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig {
+public class SecurityConfig  {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -34,9 +34,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, HttpSecurity httpSecurity) throws Exception {
         http
                 .csrf(csrf -> csrf
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .ignoringRequestMatchers("/requests/**")
+                        //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 )
-
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login", "/resources/**").permitAll()
                         .requestMatchers("/dashboard", "/dashboard/**").authenticated()
@@ -44,8 +44,8 @@ public class SecurityConfig {
                         .requestMatchers("/viewRequests").hasAnyRole("SUPER_USER" ,"HOD")
                         .requestMatchers("/requests/**").hasAnyRole("SUPER_USER", "HOD", "ASSIGNED_USER")
                         .requestMatchers(HttpMethod.GET, "/requests/**").hasAnyRole("SUPER_USER", "HOD", "ASSIGNED_USER")
-                        .requestMatchers(HttpMethod.DELETE, "/requests/**").hasAnyRole("SUPER_USER", "HOD", "ASSIGNED_USER")
-
+                        .requestMatchers(HttpMethod.DELETE, "/requests/**").hasAnyRole("SUPER_USER", "HOD","ASSIGNED_USER")
+                        .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -69,6 +69,7 @@ public class SecurityConfig {
                             .invalidSessionUrl("/login?sessionExpired")
                             .sessionFixation().migrateSession()
                             .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+
                 });
 
         return http.build();
@@ -77,5 +78,6 @@ public class SecurityConfig {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsService);
+
     }
 }
