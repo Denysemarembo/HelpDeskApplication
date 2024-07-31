@@ -2,7 +2,6 @@ package rw.gov.rra.helpdeskapplication.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import rw.gov.rra.helpdeskapplication.model.*;
+import rw.gov.rra.helpdeskapplication.repository.UserRepository;
 import rw.gov.rra.helpdeskapplication.service.*;
 import org.springframework.ui.Model;
 import org.slf4j.Logger;
@@ -18,6 +18,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 public class RequestController {
@@ -33,6 +35,9 @@ public class RequestController {
     @Autowired
     private RequestService requestService;
 
+    @Autowired
+    private UserRepository repo;
+
     @GetMapping("/requestForm")
     public String showRequestForm(Model model) {
         model.addAttribute("users", userService.getAllUsers());
@@ -41,18 +46,33 @@ public class RequestController {
         return "requestForm";
     }
 
+//    @PostMapping("/submitRequest")
+//    public String submitRequest(@ModelAttribute Request request) {
+//        System.out.println("Trace request: "+request);
+//        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        request.setStatus("I");
+//        request.setRequestDate(new Date());
+//        User requestor = userService.findById(3L);
+//        request.setRequestor(requestor);
+//        requestService.createRequest(request);
+//        return "redirect:/success";
+//
+//    }
+
     @PostMapping("/submitRequest")
     public String submitRequest(@ModelAttribute Request request) {
-        System.out.println("Trace request: "+request);
+        System.out.println("Trace request: " + request);
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         request.setStatus("I");
         request.setRequestDate(new Date());
-        User requestor = userService.findById(3L);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User requestor = userService.findByUsername(username);
         request.setRequestor(requestor);
         requestService.createRequest(request);
         return "redirect:/success";
-
     }
+
 
     @GetMapping("/viewRequests")
     public String viewRequests(@RequestParam(required = false) Long departmentId, Model model) {
@@ -67,6 +87,16 @@ public class RequestController {
         model.addAttribute("departments", departments);
         model.addAttribute("selectedDepartmentId", departmentId);
         return "viewRequest";
+    }
+    @GetMapping("/postRequests")
+    public String viewPostRequests(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        List<Request> assignedRequests = requestService.getRequestsAssignedToUser(username);
+        model.addAttribute("requests", assignedRequests);
+
+        return "postRequests";
     }
 
     @GetMapping("/department/{departmentId}/requests")
@@ -125,8 +155,5 @@ public class RequestController {
         requestService.deleteRequestById(id);
         return ResponseEntity.ok().build();
     }
-
-
-
 
 }

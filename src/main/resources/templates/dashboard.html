@@ -91,16 +91,17 @@
 <div class="sidebar">
     <a href="#"><i class="fas fa-home"></i> Home</a>
 
-    <a th:if="${#authorization.expression('hasRole(''STAFF'')')}" th:href="@{/requestForm}">
+
+    <a th:if="${#authorization.expression('hasRole(''STAFF'') or hasRole(''HOD'') or hasRole(''SUPER_USER'')')}" th:href="@{/requestForm}">
         <i class="fas fa-chart-bar"></i> Make Request
     </a>
 
-    <a th:if="${#authorization.expression('hasRole(''SUPER_USER'') or hasRole(''HOD'')')}" th:href="@{/viewRequests}">
+    <a th:if="${#authorization.expression('hasRole(''SUPER_USER'') or hasRole(''HOD'') or hasRole(''STAFF'')')}" th:href="@{/viewRequests}">
         <i class="fas fa-chart-bar"></i> View Requests
     </a>
 
-    <a th:if="${#authorization.expression('hasRole(''SUPER_USER'') or hasRole(''HOD'')')}" th:href="@{/postrequests}">
-        <i class="fas fa-chart-bar"></i> Post Requests
+    <a th:if="${#authorization.expression('hasRole(''STAFF'') or hasRole(''HOD'') or hasRole(''SUPER_USER'')')}" th:href="@{/postRequests}">
+        <i class="fas fa-chart-bar"></i> Posted Requests
     </a>
 
     <a th:href="@{/logout}"><i class="glyphicon glyphicon-log-out"></i> Logout</a>

@@ -79,6 +79,9 @@ public class RequestServiceImpl implements RequestService {
 
         }
     }
+    public List<Request> getRequestsAssignedToUser(String username) {
+        return repo.findByAssignedToUsername(username);
+    }
 
     //change until here
 

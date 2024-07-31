@@ -20,6 +20,8 @@ public interface RequestService {
     Request save(Request request);
     void deleteRequestById(Long requestId);
 
+    List<Request> getRequestsAssignedToUser(String username);
+
     //change upto here
 
 }

@@ -14,7 +14,8 @@ public interface UserService {
     String findDepartmentByAssignedTo(String assignedTo);
 
 
-    User findByUsername(String assignedTo);
+    User findByUsername(String username);
+//    User findByUsername(String assignedTo);
     User findById(Long id);
 }
 

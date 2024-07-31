@@ -29,7 +29,7 @@ public class DashboardController {
 
     @GetMapping("/requestFormss")
     public String postRequests() {
-        return "requestForm";
+        return "postRequests";
     }
 
     @GetMapping("/logout")

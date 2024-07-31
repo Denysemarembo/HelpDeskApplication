@@ -179,7 +179,6 @@
 <div id="updateFormModal">
     <h2>Update Request</h2>
     <form action="/requests/update" method="post">
-<!--        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
         <input type="hidden" id="updateId" name="id">
         <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
         <label for="updateComment">Comment:</label>
