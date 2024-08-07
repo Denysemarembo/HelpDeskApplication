@@ -35,16 +35,15 @@ public class SecurityConfig  {
         http
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/requests/**")
-                        //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login", "/resources/**").permitAll()
                         .requestMatchers("/dashboard", "/dashboard/**").authenticated()
                         .requestMatchers("/requestForm", "/submitRequest", "/postRequests").hasAnyRole("STAFF","HOD","SUPER_USER")
-                        .requestMatchers("/viewRequests").hasAnyRole("SUPER_USER" ,"HOD","STAFF")
-                        .requestMatchers("/requests/**").hasAnyRole("SUPER_USER", "HOD", "ASSIGNED_USER")
-                        .requestMatchers(HttpMethod.GET, "/requests/**").hasAnyRole("SUPER_USER", "HOD", "ASSIGNED_USER")
-                        .requestMatchers(HttpMethod.DELETE, "/requests/**").hasAnyRole("SUPER_USER", "HOD","ASSIGNED_USER")
+                        .requestMatchers("/viewRequests").hasRole("SUPER_USER")
+                        .requestMatchers("/requests/**").hasAnyRole("SUPER_USER", "HOD", "ASSIGNED_USER", "STAFF")
+                        .requestMatchers(HttpMethod.GET, "/requests/**").hasAnyRole("SUPER_USER", "HOD", "ASSIGNED_USER","STAFF")
+                        .requestMatchers(HttpMethod.DELETE, "/requests/**").hasAnyRole("SUPER_USER", "HOD","ASSIGNED_USER","STAFF")
                         .requestMatchers("/postRequests").authenticated()
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()

@@ -60,9 +60,6 @@ public class RequestServiceImpl implements RequestService {
         throw new RuntimeException("Request not found");
     }
 
-//    @Autowired
-//    private RequestRepository requestRepository;
-//
     public Request findById(Long id) {
         return repo.findById(id).orElse(null);
     }

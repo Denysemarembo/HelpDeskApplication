@@ -95,7 +95,6 @@ public class RequestController {
 
         List<Request> assignedRequests = requestService.getRequestsAssignedToUser(username);
         model.addAttribute("requests", assignedRequests);
-
         return "postRequests";
     }
 
@@ -113,8 +112,7 @@ public class RequestController {
         model.addAttribute("request", request);
         return "requestDetails";
     }
-
-
+    
     @PostMapping("/{id}/comment")
     public Request addComment(@PathVariable Long id, @RequestBody String comment) {
         return requestService.addComment(id, comment);
@@ -122,7 +120,8 @@ public class RequestController {
     @PostMapping("/requests/update")
     public String updateRequest(@RequestParam Long id,
                                 @RequestParam String comment,
-                                @RequestParam String status) {
+                                @RequestParam String status,
+                                @RequestParam(required = false) String redirect) {
         Request request = requestService.findById(id);
         if (request != null) {
             request.setComment(comment);
@@ -131,7 +130,11 @@ public class RequestController {
 
             requestService.save(request);
         }
-        return "redirect:/viewRequests";
+        if ("postRequests".equals(redirect)) {
+            return "redirect:/postRequests";
+        } else {
+            return "redirect:/viewRequests";
+        }
     }
 
     @GetMapping("/requests/{id}")
