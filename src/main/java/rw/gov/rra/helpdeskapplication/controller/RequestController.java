@@ -3,7 +3,6 @@ package rw.gov.rra.helpdeskapplication.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.stereotype.Controller;
@@ -90,16 +89,7 @@ public class RequestController {
     public List<Request> getRequestsByDepartment(@PathVariable Long departmentId) {
         return requestService.getRequestsByDepartment(departmentId);
     }
-    //change from here
 
-    @GetMapping("/requests/details/{id}")
-    @PreAuthorize("hasAnyRole('SUPER_USER', 'HOD', 'ASSIGNED_USER')")
-    public String getRequestDetails(@PathVariable Long id, Model model) {
-        Request request = requestService.getRequestById(id);
-        model.addAttribute("request", request);
-        return "requestDetails";
-    }
-    
     @PostMapping("/{id}/comment")
     public Request addComment(@PathVariable Long id, @RequestBody String comment) {
         return requestService.addComment(id, comment);
