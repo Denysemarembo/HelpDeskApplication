@@ -27,7 +27,6 @@ public class User {
 	@JoinColumn(name = "department_id")
 	private Department department;
 
-	// Constructors
 	public User() {
 		super();
 	}
@@ -39,7 +38,6 @@ public class User {
 		this.requests = requests;
 	}
 
-	// Getters and Setters
 	public Long getId() {
 		return id;
 	}

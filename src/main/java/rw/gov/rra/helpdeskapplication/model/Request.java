@@ -12,7 +12,6 @@ public class Request {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	// private String department;
 	private String description;
 	private Date requestDate;
 	private String status;
@@ -38,14 +37,6 @@ public class Request {
 	public void setId(Long id) {
 		this.id = id;
 	}
-//	public String getDepartment() {
-//		return department;
-//	}
-//
-//	public void setDepartment(String department) {
-//		this.department = department;
-//	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -78,10 +69,6 @@ public class Request {
 		this.requestor = requestor;
 	}
 
-//	public void setRequestor(int requestor) {
-//		this.requestor = requestor;
-//	}
-
 	public User getAssignedTo() {
 		return assignedTo;
 	}
@@ -113,7 +100,7 @@ public class Request {
 	public void setApprovedDate(LocalDateTime approvedDate) {
 		this.approvedDate = approvedDate;
 	}
-	//this change from here
+
 	public void approve() {
 		this.status = "Approved";
 		this.approvedDate = LocalDateTime.now();
@@ -125,8 +112,7 @@ public class Request {
 	public void addComment(String comment) {
 		this.comment = comment;
 	}
-	//until here
-//String department,
+
 	public Request( String description, Date requestDate, String status, User requestor,
 					User assignedTo, Department depart, String comment, LocalDateTime approvedDate) {
 		super();

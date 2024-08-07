@@ -82,7 +82,6 @@
     <br>
     <label for="assignedTo">Reply Login:</label>
     <select id="assignedTo" name="assignedTo" >
-<!--        <option value="" disabled selected>Select a person</option>-->
         <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"></option>
     </select>
     <label for="depart">Department:</label>
@@ -131,36 +130,5 @@
         });
     });
 </script>
-<!--<script>-->
-<!--    $(document).ready(function() {-->
-<!--        $('#assignedTo').change(function() {-->
-<!--            var assignedTo = $(this).val();-->
-<!--            if (assignedTo) {-->
-<!--                $.ajax({-->
-<!--                    url: '/getDepartments',-->
-<!--                    type: 'GET',-->
-<!--                    data: { assignedTo: assignedTo },-->
-<!--                    success: function(data) {-->
-<!--                        $('#depart').empty();-->
-<!--                        if (data.departmentName) {-->
-<!--                            $('#depart').append('<option value="">' + data.departmentName + '</option>');-->
-<!--                            $('#departmentId').val(data.departmentId);-->
-<!--                        } else {-->
-<!--                            $('#depart').append('<option value="">No Department Found</option>');-->
-<!--                            $('#departmentId').val('');-->
-<!--                        }-->
-<!--                    },-->
-<!--                    error: function() {-->
-<!--                        alert('Error retrieving department information');-->
-<!--                    }-->
-<!--                });-->
-<!--            } else {-->
-<!--                $('#depart').empty();-->
-<!--                $('#depart').append('<option value="">Select a department</option>');-->
-<!--                $('#departmentId').val('');-->
-<!--            }-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
 </body>
 </html>

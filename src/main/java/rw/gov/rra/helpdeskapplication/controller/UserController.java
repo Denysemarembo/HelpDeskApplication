@@ -39,17 +39,6 @@ public class UserController {
         List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
-//    @GetMapping("/users/{userId}/department")
-//    public ResponseEntity<List<Department>> getUserDepartments(@PathVariable Long userId) {
-//        Optional<User> userOptional = userRepository.findById(userId);
-//        if (userOptional.isPresent()) {
-//            User user = userOptional.get();
-//            List<Department> departments = departmentRepository.findByAssignedTo(user);
-//            return ResponseEntity.ok(departments);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
 
     @GetMapping("/getDepartment")
     @ResponseBody

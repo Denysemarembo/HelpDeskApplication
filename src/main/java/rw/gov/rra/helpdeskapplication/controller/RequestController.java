@@ -46,19 +46,6 @@ public class RequestController {
         return "requestForm";
     }
 
-//    @PostMapping("/submitRequest")
-//    public String submitRequest(@ModelAttribute Request request) {
-//        System.out.println("Trace request: "+request);
-//        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        request.setStatus("I");
-//        request.setRequestDate(new Date());
-//        User requestor = userService.findById(3L);
-//        request.setRequestor(requestor);
-//        requestService.createRequest(request);
-//        return "redirect:/success";
-//
-//    }
-
     @PostMapping("/submitRequest")
     public String submitRequest(@ModelAttribute Request request) {
         System.out.println("Trace request: " + request);

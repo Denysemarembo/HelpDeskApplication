@@ -44,10 +44,6 @@ public class UserServiceImpl implements UserService {
         return user != null && user.getDepartment() != null ? user.getDepartment().getName() : "";
     }
 
-//    @Override
-//    public User findByUsername(String assignedTo) {
-//        return null;
-//    }
     public User findByUsername(String username) {
         return repo.findByUsername(username);
     }

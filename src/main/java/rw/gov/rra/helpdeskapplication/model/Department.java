@@ -16,9 +16,6 @@ public class Department {
     
     @OneToMany(mappedBy = "department")
     private List<User> users;
-    
-//    @OneToMany(mappedBy = "department")
-//    private List<Request>request;
 
 	public Long getId() {
 		return id;
@@ -51,23 +48,13 @@ public class Department {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
-//
-//	public List<Request> getRequest() {
-//		return request;
-//	}
-//
-//	public void setRequest(List<Request> request) {
-//		this.request = request;
-//	}
 
 	public Department(String name, String description) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.users = users;
-//		this.request = request;
 	}
-//	, List<Request> request
 
 	public Department() {
 		super();
